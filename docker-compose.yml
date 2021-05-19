@@ -14,6 +14,9 @@ services:
       - frontend-network
     ports:
       - 80:80
+    depends_on:
+      - page-service
+      - layout-service
   page-service:
     image: page.service:local
     container_name: page.service
