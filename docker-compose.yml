@@ -1,0 +1,39 @@
+version: '3'
+
+networks:
+  frontend-network:
+    driver: bridge
+
+services:
+  gateway:
+    image: gateway:local
+    container_name: gateway
+    build: gateway/
+    restart: unless-stopped
+    networks:
+      - frontend-network
+    ports:
+      - 80:80
+  page-service:
+    image: page.service:local
+    container_name: page.service
+    build: page-service/
+    restart: unless-stopped
+    networks:
+      - frontend-network
+    environment:
+      - PORT=80
+    expose:
+      - 80
+  layout-service:
+    image: layout.service:local
+    container_name: layout.service
+    build: layout-service/
+    restart: unless-stopped
+    networks:
+      - frontend-network
+    environment:
+      - PORT=80
+    expose:
+      - 80
+
