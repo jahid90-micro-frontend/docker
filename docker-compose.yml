@@ -17,6 +17,7 @@ services:
     depends_on:
       - page-service
       - layout-service
+      - content-service
   page-service:
     image: page.service:local
     container_name: page.service
@@ -32,6 +33,17 @@ services:
     image: layout.service:local
     container_name: layout.service
     build: layout-service/
+    restart: unless-stopped
+    networks:
+      - frontend-network
+    environment:
+      - PORT=80
+    expose:
+      - 80
+  content-service:
+    image: content.service:local
+    container_name: content.service
+    build: content-service/
     restart: unless-stopped
     networks:
       - frontend-network
