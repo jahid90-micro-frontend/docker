@@ -85,6 +85,8 @@ services:
     restart: unless-stopped
     networks:
       - frontend-network
+    environment:
+      - PORT=80
     expose:
       - 80
   footer-widget:
