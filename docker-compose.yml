@@ -18,6 +18,8 @@ services:
       - page-service
       - layout-service
       - content-service
+      - widget-service
+      - nav-service
   page-service:
     image: page.service:local
     container_name: page.service
@@ -44,6 +46,29 @@ services:
     image: content.service:local
     container_name: content.service
     build: content-service/
+    restart: unless-stopped
+    networks:
+      - frontend-network
+    environment:
+      - PORT=80
+    expose:
+      - 80
+  widget-service:
+    image: widget.service:local
+    container_name: widget.service
+    build: widget-service/
+    restart: unless-stopped
+    networks:
+      - frontend-network
+    environment:
+      - PORT=80
+    expose:
+      - 80
+  # widgets
+  nav-service:
+    image: nav.service:local
+    container_name: nav.service
+    build: widgets/nav/
     restart: unless-stopped
     networks:
       - frontend-network
