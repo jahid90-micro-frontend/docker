@@ -20,6 +20,7 @@ services:
       - content-service
       - widget-service
       - nav-widget
+      - home-widget
       - footer-widget
   page-service:
     image: page.service:local
@@ -75,6 +76,15 @@ services:
       - frontend-network
     environment:
       - PORT=80
+    expose:
+      - 80
+  home-widget:
+    image: home.widget:local
+    container_name: home.widget
+    build: widgets/home/
+    restart: unless-stopped
+    networks:
+      - frontend-network
     expose:
       - 80
   footer-widget:
