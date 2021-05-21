@@ -15,6 +15,7 @@ services:
     ports:
       - 80:80
     depends_on:
+      - web-service
       - page-service
       - layout-service
       - content-service
@@ -23,10 +24,22 @@ services:
       - footer-widget
       - home-widget
       - about-widget
+      - tictactoe-widget
   page-service:
     image: page.service:local
     container_name: page.service
     build: page-service/
+    restart: unless-stopped
+    networks:
+      - frontend-network
+    environment:
+      - PORT=80
+    expose:
+      - 80
+  web-service:
+    image: web.service:local
+    container_name: web.service
+    build: web-service/
     restart: unless-stopped
     networks:
       - frontend-network
