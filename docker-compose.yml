@@ -20,8 +20,9 @@ services:
       - content-service
       - widget-service
       - nav-widget
-      - home-widget
       - footer-widget
+      - home-widget
+      - about-widget
   page-service:
     image: page.service:local
     container_name: page.service
@@ -78,6 +79,17 @@ services:
       - PORT=80
     expose:
       - 80
+  footer-widget:
+    image: footer.widget:local
+    container_name: footer.widget
+    build: widgets/footer/
+    restart: unless-stopped
+    networks:
+      - frontend-network
+    environment:
+      - PORT=80
+    expose:
+      - 80
   home-widget:
     image: home.widget:local
     container_name: home.widget
@@ -89,10 +101,10 @@ services:
       - PORT=80
     expose:
       - 80
-  footer-widget:
-    image: footer.widget:local
-    container_name: footer.widget
-    build: widgets/footer/
+  about-widget:
+    image: about.widget:local
+    container_name: about.widget
+    build: widgets/about/
     restart: unless-stopped
     networks:
       - frontend-network
