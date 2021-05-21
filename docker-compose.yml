@@ -112,3 +112,14 @@ services:
       - PORT=80
     expose:
       - 80
+  tictactoe-widget:
+    image: tictactoe.widget:local
+    container_name: tictactoe.widget
+    build: widgets/tic-tac-toe/
+    restart: unless-stopped
+    networks:
+      - frontend-network
+    environment:
+      - PORT=80
+    expose:
+      - 80
