@@ -103,6 +103,17 @@ services:
       - PORT=80
     expose:
       - 80
+  not-found-widget:
+    image: not-found.widget:local
+    container_name: not-found.widget
+    build: widgets/not-found/
+    restart: unless-stopped
+    networks:
+      - frontend-network
+    environment:
+      - PORT=80
+    expose:
+      - 80
   home-widget:
     image: home.widget:local
     container_name: home.widget
