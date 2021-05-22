@@ -3,6 +3,10 @@
         "repo": "git@github.com:jahid90-micro-frontend/gateway.git",
         "path": "gateway"
     },
+    "web-service": {
+        "repo": "git@github.com:jahid90-micro-frontend/web-service.git",
+        "path": "web-service"
+    },
     "page-service": {
         "repo": "git@github.com:jahid90-micro-frontend/page-service.git",
         "path": "page-service"
@@ -15,7 +19,7 @@
         "repo": "git@github.com:jahid90-micro-frontend/content-service.git",
         "path": "content-service"
     },
-    "widget-service`": {
+    "widget-service": {
         "repo": "git@github.com:jahid90-micro-frontend/widget-service.git",
         "path": "widget-service"
     },
@@ -38,5 +42,9 @@
     "not-found-widget": {
         "repo": "git@github.com:jahid90-micro-frontend/not-found-widget.git",
         "path": "widgets/not-found"
+    },
+    "counter-widget": {
+        "repo": "git@github.com:jahid90-micro-frontend/counter-widget.git",
+        "path": "widgets/counter"
     }
 }
