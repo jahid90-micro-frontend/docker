@@ -1,6 +1,7 @@
 !.gitignore
 !docker-compose.yml
 !images/
+!packages.json
 !setup.js
 !pull.js
 *
