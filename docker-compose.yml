@@ -24,7 +24,7 @@ services:
       - footer-widget
       - home-widget
       - about-widget
-      - tictactoe-widget
+      - counter-widget
   page-service:
     image: page.service:local
     container_name: page.service
@@ -136,9 +136,9 @@ services:
       - PORT=80
     expose:
       - 80
-  tictactoe-widget:
-    image: tictactoe.widget:local
-    container_name: tictactoe.widget
+  counter-widget:
+    image: counter.widget:local
+    container_name: counter.widget
     build: widgets/tic-tac-toe/
     restart: unless-stopped
     networks:
