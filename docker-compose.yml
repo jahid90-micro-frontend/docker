@@ -139,7 +139,7 @@ services:
   counter-widget:
     image: counter.widget:local
     container_name: counter.widget
-    build: widgets/tic-tac-toe/
+    build: widgets/counter/
     restart: unless-stopped
     networks:
       - frontend-network
