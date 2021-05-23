@@ -1,7 +1,11 @@
 version: '3'
 
 networks:
-  frontend-network:
+  frontend:
+    name: frontend-network
+    driver: bridge
+  backend:
+    name: backend-network
     driver: bridge
 
 services:
@@ -11,7 +15,8 @@ services:
     build: gateway/
     restart: unless-stopped
     networks:
-      - frontend-network
+      - frontend
+      - backend
     ports:
       - 80:80
     depends_on:
@@ -31,7 +36,7 @@ services:
     build: page-service/
     restart: unless-stopped
     networks:
-      - frontend-network
+      - frontend
     environment:
       - PORT=80
     expose:
@@ -42,7 +47,7 @@ services:
     build: web-service/
     restart: unless-stopped
     networks:
-      - frontend-network
+      - frontend
     environment:
       - PORT=80
     expose:
@@ -53,7 +58,7 @@ services:
     build: layout-service/
     restart: unless-stopped
     networks:
-      - frontend-network
+      - frontend
     environment:
       - PORT=80
     expose:
@@ -64,7 +69,7 @@ services:
     build: content-service/
     restart: unless-stopped
     networks:
-      - frontend-network
+      - frontend
     environment:
       - PORT=80
     expose:
@@ -75,7 +80,7 @@ services:
     build: widget-service/
     restart: unless-stopped
     networks:
-      - frontend-network
+      - frontend
     environment:
       - PORT=80
     expose:
@@ -87,7 +92,7 @@ services:
     build: widgets/nav/
     restart: unless-stopped
     networks:
-      - frontend-network
+      - frontend
     environment:
       - PORT=80
     expose:
@@ -98,7 +103,7 @@ services:
     build: widgets/footer/
     restart: unless-stopped
     networks:
-      - frontend-network
+      - frontend
     environment:
       - PORT=80
     expose:
@@ -109,7 +114,7 @@ services:
     build: widgets/not-found/
     restart: unless-stopped
     networks:
-      - frontend-network
+      - frontend
     environment:
       - PORT=80
     expose:
@@ -120,7 +125,7 @@ services:
     build: widgets/home/
     restart: unless-stopped
     networks:
-      - frontend-network
+      - frontend
     environment:
       - PORT=80
     expose:
@@ -131,7 +136,7 @@ services:
     build: widgets/about/
     restart: unless-stopped
     networks:
-      - frontend-network
+      - frontend
     environment:
       - PORT=80
     expose:
@@ -142,7 +147,7 @@ services:
     build: widgets/counter/
     restart: unless-stopped
     networks:
-      - frontend-network
+      - frontend
     environment:
       - PORT=80
     expose:
