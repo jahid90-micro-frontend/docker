@@ -3,6 +3,7 @@
 !images/
 !packages.json
 !setup.js
+!status.js
 !pull.js
 !push.js
 *

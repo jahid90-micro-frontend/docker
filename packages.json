@@ -22,29 +22,5 @@
     "widget-service": {
         "repo": "git@github.com:jahid90-micro-frontend/widget-service.git",
         "path": "widget-service"
-    },
-    "nav-widget": {
-        "repo": "git@github.com:jahid90-micro-frontend/nav-widget.git",
-        "path": "widgets/nav"
-    },
-    "footer-widget": {
-        "repo": "git@github.com:jahid90-micro-frontend/footer-widget.git",
-        "path": "widgets/footer"
-    },
-    "home-widget": {
-        "repo": "git@github.com:jahid90-micro-frontend/home-widget.git",
-        "path": "widgets/home"
-    },
-    "about-widget": {
-        "repo": "git@github.com:jahid90-micro-frontend/about-widget.git",
-        "path": "widgets/about"
-    },
-    "not-found-widget": {
-        "repo": "git@github.com:jahid90-micro-frontend/not-found-widget.git",
-        "path": "widgets/not-found"
-    },
-    "counter-widget": {
-        "repo": "git@github.com:jahid90-micro-frontend/counter-widget.git",
-        "path": "widgets/counter"
     }
 }

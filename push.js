@@ -16,6 +16,7 @@ for (const key in json) {
 
 function handle(package) {
 
+    console.log("------------------------------------------------------------------------");
     console.log(`Pushing package: ${package.name} ...`);
 
     if (!fs.existsSync('./' + package.path)) {
@@ -27,9 +28,10 @@ function handle(package) {
 
         console.log("Running: git push");
         runProc("git push", package.path);
-        console.log();
 
     }
+
+    console.log("------------------------------------------------------------------------");
 }
 
 function runProc(proc, cwd) {
