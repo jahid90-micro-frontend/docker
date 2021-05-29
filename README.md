@@ -17,4 +17,4 @@ The high-level architecture of the platform is captured below.
 
 ## Request Flow
 
-![micro-frontend-sequence.jpg](https://github.com/jahid90-micro-frontend/docker/blob/main/images/micro-frontend-sequence.jpg)
+![micro-frontend-sequence.jpg](https://github.com/jahid90-micro-frontend/docker/blob/dd528c5c133651a9de6de3135ec2c1d15d14ae30/images/micro-frontend.png)
