@@ -1,38 +1,30 @@
-version: '3'
+version: '3.9'
 
 networks:
   frontend:
-    name: frontend-network
-    driver: bridge
-  widget:
-    name: widget-network
-    driver: bridge
-  backend:
-    name: backend-network
+    name: frontend
     driver: bridge
 
 services:
-  gateway:
-    image: gateway:local
-    container_name: gateway
-    build: gateway/
+  ssi-service:
+    image: ssi.service:local
+    container_name: ssi.service
+    build: ssi/
     restart: unless-stopped
     networks:
       - frontend
-      - backend
-      - widget
-    ports:
-      - 80:80
-    depends_on:
-      - web-service
-      - page-service
-      - layout-service
-      - content-service
-      - widget-service
-  page-service:
-    image: page.service:local
-    container_name: page.service
-    build: page-service/
+    expose:
+      - 80
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.ssi.entryPoints=web
+      - traefik.http.routers.ssi.rule=Host(`frontend.jahiduls.local`)
+      - traefik.http.routers.ssi.service=ssi
+      - traefik.http.services.ssi.loadbalancer.server.port=80
+  web-service:
+    image: web.service:local
+    container_name: web.service
+    build: web-service/
     restart: unless-stopped
     networks:
       - frontend
@@ -40,10 +32,10 @@ services:
       - PORT=80
     expose:
       - 80
-  web-service:
-    image: web.service:local
-    container_name: web.service
-    build: web-service/
+  page-service:
+    image: page.service:local
+    container_name: page.service
+    build: page-service/
     restart: unless-stopped
     networks:
       - frontend
