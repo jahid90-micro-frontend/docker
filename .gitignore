@@ -1,9 +1,1 @@
-!.gitignore
-!docker-compose.yml
-!images/
-!packages.json
-!setup.js
-!status.js
-!pull.js
-!push.js
-*
+
