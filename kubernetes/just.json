@@ -10,6 +10,7 @@
         "dev:up": "find dev/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
         "dev:down": "kubectl delete ns development",
         "prod:up": "find prod/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
-        "prod:down": "kubectl delete ns production"
+        "prod:down": "kubectl delete ns production",
+        "load:images": "cat images.txt | xargs -I{} kind load docker-image {}"
     }
 }

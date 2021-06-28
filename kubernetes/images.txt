@@ -1,0 +1,15 @@
+traefik:2.4
+nginx:alpine
+
+content.service:local
+widget.service:local
+web.service:local
+page.service:local
+layout.service:local
+ssi.service:local
+widget.gateway:local
+about.widget:local
+home.widget:local
+not-found.widget:local
+footer.widget:local
+nav.widget:local
