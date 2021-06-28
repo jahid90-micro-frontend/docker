@@ -1,0 +1,15 @@
+{
+    "version": "4",
+    "commands": {
+        "cluster:up": "kind create cluster --config cluster.yaml",
+        "cluster:down": "kind delete cluster",
+        "loadbalancer:up": "find loadbalancer/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
+        "loadbalancer:down": "kubectl delete ns metallb-system",
+        "ingress:up": "find ingress/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
+        "ingress:down": "kubectl delete ns traefik-system",
+        "dev:up": "find dev/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
+        "dev:down": "kubectl delete ns development",
+        "prod:up": "find prod/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
+        "prod:down": "kubectl delete ns production"
+    }
+}
