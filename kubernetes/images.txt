@@ -1,6 +1,9 @@
 traefik:2.4
 nginx:alpine
 
+quay.io/metallb/controller:v0.10.2
+quay.io/metallb/speaker:v0.10.2
+
 content.service:local
 widget.service:local
 web.service:local
