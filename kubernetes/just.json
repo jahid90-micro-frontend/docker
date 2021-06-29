@@ -7,6 +7,8 @@
         "loadbalancer:down": "kubectl delete ns metallb-system",
         "ingress:up": "find ingress/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
         "ingress:down": "kubectl delete ns traefik-system",
+        "storage:up": "find storage/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
+        "storage:down": "kubectl delete nc nfs-storage-system",
         "dev:up": "find dev/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
         "dev:down": "kubectl delete ns development",
         "prod:up": "find prod/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
