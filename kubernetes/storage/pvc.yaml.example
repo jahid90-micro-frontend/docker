@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: example-pvc
 spec:
-  storageClassName: managed-nfs-storage
+  storageClassName: local-nfs-storage
   accessModes:
     - ReadWriteOnce
   resources:
