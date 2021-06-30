@@ -4,15 +4,17 @@
         "cluster:up": "kind create cluster --config cluster.yaml",
         "cluster:down": "kind delete cluster",
         "loadbalancer:up": "find loadbalancer/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
-        "loadbalancer:down": "kubectl delete ns metallb-system",
+        "loadbalancer:down": "find loadbalancer/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "ingress:up": "find ingress/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
-        "ingress:down": "kubectl delete ns traefik-system",
+        "ingress:down": "find ingress/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "storage:up": "find storage/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
-        "storage:down": "kubectl delete nc nfs-storage-system",
+        "storage:down": "find storage/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "dev:up": "find dev/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
-        "dev:down": "kubectl delete ns development",
+        "dev:down": "find dev/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "prod:up": "find prod/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
-        "prod:down": "kubectl delete ns production",
-        "load:images": "cat images.txt | xargs -I{} kind load docker-image {}"
+        "prod:down": "find prod/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
+        "dbs:up": "find dbs/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
+        "dbs:down": "find dbs/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
+        "images:load": "cat images.txt | xargs -I{} kind load docker-image {}"
     }
 }
