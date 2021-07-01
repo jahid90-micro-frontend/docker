@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pgadmin
+  namespace: tools
+  labels:
+    app: pgadmin
+
+spec:
+  ports:
+  - port: 80
+    targetPort: pgadmin
+  selector:
+    app: pgadmin
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+  namespace: tools
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+      - name: pgadmin
+        image: dpage/pgadmin4:latest
+        ports:
+        - containerPort: 80
+          name: pgadmin
+        env:
+        - name: PGADMIN_DEFAULT_EMAIL
+          value: pgadmin@jahiduls.kube
+        - name: PGADMIN_DEFAULT_PASSWORD
+          value: password
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: pgadmin
+  namespace: tools
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+
+spec:
+  rules:
+  - host: pgadmin.jahiduls.kube
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name:  pgadmin
+            port:
+              number: 80
