@@ -4,6 +4,7 @@ mongo:xenial
 mongo-express:latest
 postgres:13-alpine
 dpage/pgadmin4:latest
+ghcr.io/linuxserver/mariadb:alpine
 
 quay.io/metallb/controller:v0.10.2
 quay.io/metallb/speaker:v0.10.2
