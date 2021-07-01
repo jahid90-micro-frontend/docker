@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-express
+  namespace: tools
+  labels:
+    app: mongo-express
+
+spec:
+  ports:
+  - port: 80
+    targetPort: 8081
+  selector:
+    app: mongo-express
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-express
+  namespace: tools
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-express
+  template:
+    metadata:
+      labels:
+        app: mongo-express
+    spec:
+      containers:
+      - name: mongo-express
+        image: mongo-express:latest
+        ports:
+        - containerPort: 8080
+          name: web
+        env:
+        - name: ME_CONFIG_MONGODB_SERVER
+          value: mongodb.default
+
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: mongo-express
+  namespace: tools
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+
+spec:
+  rules:
+  - host: mongo.jahiduls.kube
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name:  mongo-express
+            port:
+              number: 80

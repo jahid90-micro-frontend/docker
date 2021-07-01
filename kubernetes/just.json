@@ -15,6 +15,8 @@
         "prod:down": "find prod/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "dbs:up": "find dbs/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
         "dbs:down": "find dbs/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
+        "tools:up": "find tools/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
+        "tools:down": "find tools/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "images:load": "cat images.txt | xargs -I{} kind load docker-image {}"
     }
 }
