@@ -15,6 +15,8 @@
         "dbs:down": "find dbs/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "tools:up": "find tools/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
         "tools:down": "find tools/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
+        "wiki:up": "find wiki/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
+        "wiki:down": "find wiki/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "images:load": "cat images.txt | xargs -I{} kind load docker-image {}"
     }
 }
