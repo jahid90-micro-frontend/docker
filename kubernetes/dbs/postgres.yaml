@@ -1,14 +1,36 @@
 apiVersion: v1
-kind: Namespace
+kind: PersistentVolume
 metadata:
-  name: postgres
+  name: postgres-nfs
+spec:
+  capacity:
+    storage: 500Mi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.0.165
+    path: /data/kubernetes/postgres
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-nfs
+  namespace: postgres-system
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 500Mi
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: postgres
-  namespace: postgres
+  namespace: postgres-system
   labels:
     app: postgres
 spec:
@@ -24,7 +46,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgres
-  namespace: postgres
+  namespace: postgres-system
 spec:
   serviceName: postgres
   replicas: 1
@@ -51,12 +73,7 @@ spec:
         volumeMounts:
         - name: postgres-data
           mountPath: /var/lib/postgresql/data/pgdata
-  volumeClaimTemplates:
-  - metadata:
-      name: postgres-data
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: local-nfs-storage
-      resources:
-        requests:
-          storage: 500Mi
+      volumes: 
+      - name: postgres-data
+        persistentVolumeClaim:
+          claimName: postgres-nfs
