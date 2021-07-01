@@ -5,6 +5,7 @@ metadata:
     app: metallb
   name: controller
   namespace: metallb-system
+
 spec:
   allowPrivilegeEscalation: false
   allowedCapabilities: []
@@ -39,6 +40,7 @@ spec:
   - configMap
   - secret
   - emptyDir
+
 ---
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
@@ -47,6 +49,7 @@ metadata:
     app: metallb
   name: speaker
   namespace: metallb-system
+
 spec:
   allowPrivilegeEscalation: false
   allowedCapabilities:
@@ -78,6 +81,7 @@ spec:
   - configMap
   - secret
   - emptyDir
+
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -86,6 +90,7 @@ metadata:
     app: metallb
   name: controller
   namespace: metallb-system
+
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -94,6 +99,7 @@ metadata:
     app: metallb
   name: speaker
   namespace: metallb-system
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -101,6 +107,7 @@ metadata:
   labels:
     app: metallb
   name: metallb-system:controller
+
 rules:
 - apiGroups:
   - ''
@@ -131,6 +138,7 @@ rules:
   - podsecuritypolicies
   verbs:
   - use
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -138,6 +146,7 @@ metadata:
   labels:
     app: metallb
   name: metallb-system:speaker
+
 rules:
 - apiGroups:
   - ''
@@ -171,6 +180,7 @@ rules:
   - podsecuritypolicies
   verbs:
   - use
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -179,6 +189,7 @@ metadata:
     app: metallb
   name: config-watcher
   namespace: metallb-system
+
 rules:
 - apiGroups:
   - ''
@@ -188,6 +199,7 @@ rules:
   - get
   - list
   - watch
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -196,6 +208,7 @@ metadata:
     app: metallb
   name: pod-lister
   namespace: metallb-system
+
 rules:
 - apiGroups:
   - ''
@@ -234,6 +247,7 @@ rules:
   - controller
   verbs:
   - get
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -249,6 +263,7 @@ subjects:
 - kind: ServiceAccount
   name: controller
   namespace: metallb-system
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -264,6 +279,7 @@ subjects:
 - kind: ServiceAccount
   name: speaker
   namespace: metallb-system
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -281,6 +297,7 @@ subjects:
   name: controller
 - kind: ServiceAccount
   name: speaker
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -296,6 +313,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: speaker
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -311,6 +329,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: controller
+
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -320,6 +339,7 @@ metadata:
     component: speaker
   name: speaker
   namespace: metallb-system
+
 spec:
   selector:
     matchLabels:
@@ -390,6 +410,7 @@ spec:
       - effect: NoSchedule
         key: node-role.kubernetes.io/master
         operator: Exists
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -399,6 +420,7 @@ metadata:
     component: controller
   name: controller
   namespace: metallb-system
+
 spec:
   revisionHistoryLimit: 3
   selector:
