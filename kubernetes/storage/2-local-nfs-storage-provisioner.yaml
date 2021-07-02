@@ -1,9 +1,20 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-nfs-storage
+provisioner: jahiduls.io/nfs-local
+parameters:
+  archiveOnDelete: "false"
+reclaimPolicy: Retain
+volumeBindingMode: WaitForFirstConsumer
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: local-nfs-client-provisioner
+  name: local-nfs-storage-provisioner
   labels:
-    app: local-nfs-client-provisioner
+    app: local-nfs-storage-provisioner
   namespace: kube-storage
 
 spec:
@@ -12,15 +23,15 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: local-nfs-client-provisioner
+      app: local-nfs-storage-provisioner
   template:
     metadata:
       labels:
-        app: local-nfs-client-provisioner
+        app: local-nfs-storage-provisioner
     spec:
       serviceAccountName: nfs-client-provisioner
       containers:
-        - name: local-nfs-client-provisioner
+        - name: local-nfs-storage-provisioner
           image: k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
           volumeMounts:
             - name: local-nfs-client-root
