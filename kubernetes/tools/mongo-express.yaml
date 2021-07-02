@@ -51,7 +51,7 @@ metadata:
 
 spec:
   rules:
-  - host: mongo.jahiduls.kube
+  - host: mongo-express.jahiduls.kube
     http:
       paths:
       - path: /
