@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: content-service
+  labels:
+    app: content-service
+
+spec:
+  ports:
+  - port: 80
+    targetPort: http
+  selector:
+    app: content-service
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: content-service
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: content-service
+  template:
+    metadata:
+      labels:
+        app: content-service
+    spec:
+      containers:
+      - name: content
+        image: content-service:local
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+          - name: PORT
+            value: "80"

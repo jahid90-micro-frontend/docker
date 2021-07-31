@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: assembler-service
+  labels:
+    app: assembler-service
+
+spec:
+  ports:
+    - port: 80
+      targetPort: http
+  selector:
+    app: assembler-service
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assembler-service
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: assembler-service
+  template:
+    metadata:
+      labels:
+        app: assembler-service
+    spec:
+      containers:
+        - name: assembler
+          image: assembler-service:local
+          ports:
+            - containerPort: 80
+              name: http
+          env:
+            - name: PORT
+              value: "80"
+            - name: BASE_URI
+              value: jahiduls.kube
+            - name: PAGE_SERVICE_URI
+              value: page-service
+

@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: widget-service
+  labels:
+    app: widget-service
+
+spec:
+  ports:
+  - port: 80
+    targetPort: http
+  selector:
+    app: widget-service
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: widget-service
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: widget-service
+  template:
+    metadata:
+      labels:
+        app: widget-service
+    spec:
+      containers:
+      - name: widget
+        image: widget-service:local
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+          - name: PORT
+            value: "80"
