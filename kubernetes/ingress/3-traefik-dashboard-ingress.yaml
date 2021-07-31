@@ -16,24 +16,42 @@ spec:
       name: web
       targetPort: 8080
 
+# ---
+# kind: Ingress
+# apiVersion: networking.k8s.io/v1
+# metadata:
+#   name: traefik-dashboard
+#   namespace: traefik-system
+#   annotations: 
+#     traefik.ingress.kubernetes.io/router.entrypoints: web
+
+# spec:
+#   rules:
+#   - host: traefik.jahiduls.kube
+#     http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name:  traefik-dashboard
+#             port:
+#               number: 80
+
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: traefik-dashboard
+  name: ingressroute
   namespace: traefik-system
-  annotations: 
-    traefik.ingress.kubernetes.io/router.entrypoints: web
 
 spec:
-  rules:
-  - host: traefik.jahiduls.kube
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name:  traefik-dashboard
-            port:
-              number: 80
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`traefik.jahiduls.kube`)
+      kind: Rule
+      services:
+        - name: traefik-dashboard
+          port: 80
+          namespace: traefik-system

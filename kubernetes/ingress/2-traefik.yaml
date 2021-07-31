@@ -28,7 +28,8 @@ spec:
             - --entrypoints.websecure.address=:443
             - --entrypoints.websecure.http.tls
             - --entrypoints.traefik.address=:8080
-            - --providers.kubernetesingress=true
+            # - --providers.kubernetesingress=true
+            - --providers.kubernetescrd=true
           ports:
             - name: web
               containerPort: 80
