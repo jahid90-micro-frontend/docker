@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: common-widgets
+  labels:
+    app: common-widgets
+
+spec:
+  ports:
+    - port: 80
+      targetPort: http
+  selector:
+    app: common-widgets
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: common-widgets
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: common-widgets
+  template:
+    metadata:
+      labels:
+        app: common-widgets
+    spec:
+      containers:
+        - name: common-widgets
+          image: common-widgets:local
+          ports:
+            - containerPort: 80
+              name: http
+          env:
+            - name: PORT
+              value: "80"
+            - name: PAGE_SERVICE_URI
+              value: page-service
