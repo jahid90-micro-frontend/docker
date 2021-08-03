@@ -37,8 +37,6 @@ spec:
           env:
             - name: PORT
               value: "80"
-            - name: BASE_URI
-              value: jahiduls.kube
             - name: PAGE_SERVICE_URI
               value: page-service
 
