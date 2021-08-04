@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: page-service
+  namespace: server
+  labels:
+    app: page-service
+
+spec:
+  ports:
+  - port: 80
+    targetPort: http
+  selector:
+    app: page-service
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: page-service
+  namespace: server
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: page-service
+  template:
+    metadata:
+      labels:
+        app: page-service
+    spec:
+      containers:
+      - name: page
+        image: page-service:local
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+          - name: PORT
+            value: "80"
+          - name: LAYOUT_SERVICE_URI
+            value: layout-service
+          - name: CONTENT_SERVICE_URI
+            value: content-service
+          - name: WIDGET_SERVICE_URI
+            value: widget-service

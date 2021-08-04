@@ -1,36 +1,38 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: layout-service
+  name: content-service
+  namespace: server
   labels:
-    app: layout-service
+    app: content-service
 
 spec:
   ports:
   - port: 80
     targetPort: http
   selector:
-    app: layout-service
+    app: content-service
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: layout-service
+  name: content-service
+  namespace: server
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: layout-service
+      app: content-service
   template:
     metadata:
       labels:
-        app: layout-service
+        app: content-service
     spec:
       containers:
-      - name: layout
-        image: layout-service:local
+      - name: content
+        image: content-service:local
         ports:
         - containerPort: 80
           name: http
