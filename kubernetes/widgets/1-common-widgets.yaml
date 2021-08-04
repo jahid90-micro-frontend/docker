@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: common-widgets
+  namespace: widget
   labels:
     app: common-widgets
 
@@ -17,6 +18,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: common-widgets
+  namespace: widget
 
 spec:
   replicas: 1
