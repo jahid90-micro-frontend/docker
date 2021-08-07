@@ -11,6 +11,8 @@
         "ingress:down": "find ingress/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "logging:up": "find logging/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
         "logging:down": "find logging/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
+        "telemetry:up": "find telemetry/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
+        "telemetry:down": "find telemetry/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "storage:up": "find storage/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
         "storage:down": "find storage/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "db:up": "find dbs/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
