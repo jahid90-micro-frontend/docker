@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: assembler-service
-  namespace: server
+  namespace: default
   labels:
     app: assembler-service
 
@@ -18,7 +18,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: assembler-service
-  namespace: server
+  namespace: default
 
 spec:
   replicas: 1
@@ -38,6 +38,8 @@ spec:
               name: http
           env:
             - name: PORT
-              value: "80"
+              value: '80'
             - name: PAGE_SERVICE_URI
               value: page-service
+            - name: ZIPKIN_URI
+              value: http://zipkin:9411/api/v2/spans

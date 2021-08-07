@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: page-service
-  namespace: server
+  namespace: default
   labels:
     app: page-service
 
@@ -18,7 +18,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: page-service
-  namespace: server
+  namespace: default
 
 spec:
   replicas: 1
@@ -38,10 +38,12 @@ spec:
           name: http
         env:
           - name: PORT
-            value: "80"
+            value: '80'
           - name: LAYOUT_SERVICE_URI
             value: layout-service
           - name: CONTENT_SERVICE_URI
             value: content-service
           - name: WIDGET_SERVICE_URI
             value: widget-service
+          - name: ZIPKIN_URI
+            value: http://zipkin:9411/api/v2/spans
