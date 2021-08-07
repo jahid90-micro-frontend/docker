@@ -1,11 +1,11 @@
 {
-    "gateway": {
-        "repo": "git@github.com:jahid90-micro-frontend/gateway.git",
-        "path": "gateway"
-    },
     "web-service": {
         "repo": "git@github.com:jahid90-micro-frontend/web-service.git",
         "path": "web-service"
+    },
+    "assembler-service": {
+        "repo": "git@github.com:jahid90-micro-frontend/assembler-service.git",
+        "path": "assembler-service"
     },
     "page-service": {
         "repo": "git@github.com:jahid90-micro-frontend/page-service.git",

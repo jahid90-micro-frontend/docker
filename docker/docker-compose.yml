@@ -1,78 +1,102 @@
-version: '3.9'
+version: '3'
 
 networks:
-  frontend:
-    name: frontend
+  traefik:
+    name: traefik
     driver: bridge
 
 services:
-  ssi-service:
-    image: ssi.service:local
-    container_name: ssi.service
-    build: ssi/
+  web-service:
+    image: web-service:local
+    container_name: web-service
+    build: web-service/
     restart: unless-stopped
     networks:
-      - frontend
+      - traefik
+    environment:
+      - PORT=80
+      - ASSEMBLER_SERVICE_URI=assembler-service
+      - SERVICE_NAME=web-service
+      - ZIPKIN_URI=http://zipkin:9411/api/v2/spans
+      #- EnableLogTraceToConsole=true
     expose:
       - 80
     labels:
       - traefik.enable=true
-      - traefik.http.routers.ssi.entryPoints=web
-      - traefik.http.routers.ssi.rule=Host(`frontend.jahiduls.local`)
-      - traefik.http.routers.ssi.service=ssi
-      - traefik.http.services.ssi.loadbalancer.server.port=80
-  web-service:
-    image: web.service:local
-    container_name: web.service
-    build: web-service/
+      - traefik.http.routers.web-service.entrypoints=websecure
+      - traefik.http.routers.web-service.rule=Host(`jahiduls.mint`)
+      - traefik.http.routers.web-service.tls=true
+  assembler-service:
+    image: assembler-service:local
+    container_name: assembler-service
+    build: assembler-service/
     restart: unless-stopped
     networks:
-      - frontend
+      - traefik
     environment:
       - PORT=80
+      - PAGE_SERVICE_URI=page-service
+      - SERVICE_NAME=assembler-service
+      - ZIPKIN_URI=http://zipkin:9411/api/v2/spans
+      #- EnableLogTraceToConsole=true
     expose:
       - 80
   page-service:
-    image: page.service:local
-    container_name: page.service
+    image: page-service:local
+    container_name: page-service
     build: page-service/
     restart: unless-stopped
     networks:
-      - frontend
+      - traefik
     environment:
       - PORT=80
+      - LAYOUT_SERVICE_URI=layout-service
+      - CONTENT_SERVICE_URI=content-service
+      - WIDGET_SERVICE_URI=widget-service
+      - SERVICE_NAME=page-service
+      - ZIPKIN_URI=http://zipkin:9411/api/v2/spans
+      #- EnableLogTraceToConsole=true
     expose:
       - 80
   layout-service:
-    image: layout.service:local
-    container_name: layout.service
+    image: layout-service:local
+    container_name: layout-service
     build: layout-service/
     restart: unless-stopped
     networks:
-      - frontend
+      - traefik
     environment:
       - PORT=80
+      - SERVICE_NAME=layout-service
+      - ZIPKIN_URI=http://zipkin:9411/api/v2/spans
+      #- EnableLogTraceToConsole=true
     expose:
       - 80
   content-service:
-    image: content.service:local
-    container_name: content.service
+    image: content-service:local
+    container_name: content-service
     build: content-service/
     restart: unless-stopped
     networks:
-      - frontend
+      - traefik
     environment:
       - PORT=80
+      - SERVICE_NAME=content-service
+      - ZIPKIN_URI=http://zipkin:9411/api/v2/spans
+      #- EnableLogTraceToConsole=true
     expose:
       - 80
   widget-service:
-    image: widget.service:local
-    container_name: widget.service
+    image: widget-service:local
+    container_name: widget-service
     build: widget-service/
     restart: unless-stopped
     networks:
-      - frontend
+      - traefik
     environment:
       - PORT=80
+      - SERVICE_NAME=widget-service
+      - ZIPKIN_URI=http://zipkin:9411/api/v2/spans
+      #- EnableLogTraceToConsole=true
     expose:
       - 80
