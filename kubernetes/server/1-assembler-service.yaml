@@ -41,5 +41,7 @@ spec:
               value: '80'
             - name: PAGE_SERVICE_URI
               value: page-service
+            - name: SERVICE_NAME
+              value: assembler-service
             - name: ZIPKIN_URI
               value: http://zipkin:9411/api/v2/spans

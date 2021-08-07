@@ -45,5 +45,7 @@ spec:
             value: content-service
           - name: WIDGET_SERVICE_URI
             value: widget-service
+          - name: SERVICE_NAME
+            value: page-service
           - name: ZIPKIN_URI
             value: http://zipkin:9411/api/v2/spans

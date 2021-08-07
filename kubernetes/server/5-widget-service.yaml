@@ -39,5 +39,7 @@ spec:
         env:
           - name: PORT
             value: '80'
+          - name: SERVICE_NAME
+            value: widget-service
           - name: ZIPKIN_URI
             value: http://zipkin:9411/api/v2/spans
