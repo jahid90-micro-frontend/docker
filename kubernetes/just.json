@@ -15,8 +15,6 @@
         "telemetry:down": "find telemetry/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "storage:up": "find storage/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
         "storage:down": "find storage/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
-        "db:up": "find dbs/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
-        "db:down": "find dbs/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "tools:up": "find tools/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",
         "tools:down": "find tools/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}",
         "server:up": "find server/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}",

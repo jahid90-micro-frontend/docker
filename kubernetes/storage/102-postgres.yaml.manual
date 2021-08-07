@@ -16,7 +16,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-nfs
-  namespace: postgres-system
+  namespace: kube-storage
 spec:
   accessModes:
     - ReadWriteOnce
@@ -30,7 +30,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres
-  namespace: postgres-system
+  namespace: kube-storage
   labels:
     app: postgres
 spec:
@@ -46,7 +46,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgres
-  namespace: postgres-system
+  namespace: kube-storage
 spec:
   serviceName: postgres
   replicas: 1
@@ -77,3 +77,4 @@ spec:
       - name: postgres-data
         persistentVolumeClaim:
           claimName: postgres-nfs
+

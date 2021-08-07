@@ -16,7 +16,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mongodb-nfs
-  namespace: mongodb-system
+  namespace: kube-storage
 spec:
   accessModes:
     - ReadWriteOnce
@@ -30,7 +30,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongodb
-  namespace: mongodb-system
+  namespace: kube-storage
   labels:
     app: mongodb
 spec:
@@ -46,7 +46,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongodb
-  namespace: mongodb-system
+  namespace: kube-storage
 spec:
   serviceName: mongodb
   replicas: 1
@@ -72,3 +72,4 @@ spec:
       - name: mongodb-data
         persistentVolumeClaim:
           claimName: mongodb-nfs
+
