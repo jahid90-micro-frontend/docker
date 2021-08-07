@@ -1,0 +1,5 @@
+version: "4"
+commands:
+  generate: composer compose --in templates/1-zipkin.yaml --values templates/values.yaml > 1-zipkin.yaml
+  generate:dryrun: composer compose --in templates/1-zipkin.yaml --values templates/values.yaml
+
