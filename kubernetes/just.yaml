@@ -1,7 +1,7 @@
 version: '4'
 commands:
-  cluster:down: kind delete cluster
-  cluster:up: kind create cluster --config cluster.yaml
+  cluster:down: kind delete cluster --name local
+  cluster:up: kind create cluster --config cluster.yaml --name local
   images:load: cat images.txt | xargs -I{} kind load docker-image {}
   ingress:down: find ingress/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}
   ingress:up: find ingress/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
