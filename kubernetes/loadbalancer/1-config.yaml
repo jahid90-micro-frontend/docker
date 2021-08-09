@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: kube-load-balancer
+  namespace: kube-lb
   name: config
 data:
   config: |

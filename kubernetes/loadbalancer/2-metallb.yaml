@@ -4,7 +4,7 @@ metadata:
   labels:
     app: metallb
   name: controller
-  namespace: kube-load-balancer
+  namespace: kube-lb
 
 spec:
   allowPrivilegeEscalation: false
@@ -48,7 +48,7 @@ metadata:
   labels:
     app: metallb
   name: speaker
-  namespace: kube-load-balancer
+  namespace: kube-lb
 
 spec:
   allowPrivilegeEscalation: false
@@ -89,7 +89,7 @@ metadata:
   labels:
     app: metallb
   name: controller
-  namespace: kube-load-balancer
+  namespace: kube-lb
 
 ---
 apiVersion: v1
@@ -98,7 +98,7 @@ metadata:
   labels:
     app: metallb
   name: speaker
-  namespace: kube-load-balancer
+  namespace: kube-lb
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -188,7 +188,7 @@ metadata:
   labels:
     app: metallb
   name: config-watcher
-  namespace: kube-load-balancer
+  namespace: kube-lb
 
 rules:
 - apiGroups:
@@ -207,7 +207,7 @@ metadata:
   labels:
     app: metallb
   name: pod-lister
-  namespace: kube-load-balancer
+  namespace: kube-lb
 
 rules:
 - apiGroups:
@@ -223,7 +223,7 @@ metadata:
   labels:
     app: metallb
   name: controller
-  namespace: kube-load-balancer
+  namespace: kube-lb
 rules:
 - apiGroups:
   - ''
@@ -262,7 +262,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: controller
-  namespace: kube-load-balancer
+  namespace: kube-lb
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -278,7 +278,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: speaker
-  namespace: kube-load-balancer
+  namespace: kube-lb
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -287,7 +287,7 @@ metadata:
   labels:
     app: metallb
   name: config-watcher
-  namespace: kube-load-balancer
+  namespace: kube-lb
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -305,7 +305,7 @@ metadata:
   labels:
     app: metallb
   name: pod-lister
-  namespace: kube-load-balancer
+  namespace: kube-lb
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -321,7 +321,7 @@ metadata:
   labels:
     app: metallb
   name: controller
-  namespace: kube-load-balancer
+  namespace: kube-lb
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -338,7 +338,7 @@ metadata:
     app: metallb
     component: speaker
   name: speaker
-  namespace: kube-load-balancer
+  namespace: kube-lb
 
 spec:
   selector:
@@ -419,7 +419,7 @@ metadata:
     app: metallb
     component: controller
   name: controller
-  namespace: kube-load-balancer
+  namespace: kube-lb
 
 spec:
   revisionHistoryLimit: 3
