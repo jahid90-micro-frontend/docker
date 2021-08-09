@@ -1,0 +1,24 @@
+version: '4'
+commands:
+  cluster:down: kind delete cluster
+  cluster:up: kind create cluster --config cluster.yaml
+  images:load: cat images.txt | xargs -I{} kind load docker-image {}
+  ingress:down: find ingress/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}
+  ingress:up: find ingress/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  lb:down: find loadbalancer/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}
+  lb:up: find loadbalancer/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  logging:down: find logging/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}
+  logging:up: find logging/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  ns:down: find namespaces/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}
+  ns:up: find namespaces/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  server:down: find server/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}
+  server:up: find server/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  storage:down: find storage/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}
+  storage:up: find storage/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  telemetry:down: find telemetry/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}
+  telemetry:up: find telemetry/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  tools:down: find tools/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}
+  tools:up: find tools/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  widgets:down: find widgets/ -iname '*.yaml' | sort -r | xargs -I{} kubectl delete -f {}
+  widgets:up: find widgets/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+
