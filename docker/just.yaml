@@ -1,0 +1,10 @@
+version: 5
+commands:
+  - alias: config:generate
+    command: composer docker
+    description: Generate a docker compose manifest to build local images
+  - alias: docker:build
+    command: docker-compose build
+    description: Build local docker images
+    depends:
+      - config:generate
