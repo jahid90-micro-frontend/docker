@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: common-widgets
-          image: common-widgets:local
+          image: registry.jahiduls.mint/common-widgets:local
           ports:
             - containerPort: 80
               name: http

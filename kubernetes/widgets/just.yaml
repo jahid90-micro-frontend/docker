@@ -1,7 +1,0 @@
-version: "4"
-commands:
-  generate: composer compose --in templates/1-common-widgets.yaml --values templates/values.yaml
-    > 1-common-widgets.yaml
-  generate:dryrun: composer compose --in templates/1-common-widgets.yaml --values
-    templates/values.yaml
-
