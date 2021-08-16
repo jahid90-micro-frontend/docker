@@ -1,15 +1,37 @@
-version: '4'
+version: "5"
 commands:
-  cluster:generate: composer compose --in cluster.tmpl --values values.yaml --out cluster.yaml
-  cluster:down: kind delete cluster --name local
-  cluster:up: kind create cluster --config cluster.yaml --name local
-  ingress:up: find ingress/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
-  lb:up: find loadbalancer/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
-  logging:up: find logging/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
-  ns:up: find namespaces/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
-  server:up: find server/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
-  storage:up: find storage/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
-  telemetry:up: find telemetry/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
-  tools:up: find tools/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
-  widgets:up: find widgets/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
-
+  - alias: cluster:generate
+    command: composer compose --in cluster.tmpl --values values.yaml --out cluster.yaml
+    description: "Generate cluster config"
+  - alias: cluster:up
+    command: kind create cluster --config cluster.yaml --name local
+    description: "Create a local kubernetes cluster"
+    depends:
+      - cluster:generate
+  - alias: cluster:down
+    command: kind delete cluster --name local
+    description: "Delete the local kubernetes cluster"
+  - alias: ns:up
+    command: find namespaces/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  - alias: lb:up
+    command: find loadbalancer/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+    description: "Setup load balancer"
+    depends:
+      - ns:up
+  - alias: ingress:up
+    command: find ingress/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+    description: "Setup cluster ingress"
+    depends:
+      - ns:up
+  - alias: logging:up
+    command: find logging/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  - alias: server:up
+    command: find server/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  - alias: storage:up
+    command: find storage/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  - alias: telemetry:up
+    command: find telemetry/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  - alias: tools:up
+    command: find tools/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
+  - alias: widgets:up
+    command: find widgets/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
