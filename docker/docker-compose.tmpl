@@ -7,9 +7,9 @@ networks:
 
 services:
   web-service:
-    image: web-service:local
+    image: registry.jahiduls.mint/web-service:local
     container_name: web-service
-    build: web-service/
+    build: {{ .Values.web_service_path }}
     restart: unless-stopped
     networks:
       - traefik
@@ -27,9 +27,9 @@ services:
       - traefik.http.routers.web-service.rule=Host(`jahiduls.mint`)
       - traefik.http.routers.web-service.tls=true
   assembler-service:
-    image: assembler-service:local
+    image: registry.jahiduls.mint/assembler-service:local
     container_name: assembler-service
-    build: assembler-service/
+    build: {{ .Values.assembler_service_path }}
     restart: unless-stopped
     networks:
       - traefik
@@ -42,9 +42,9 @@ services:
     expose:
       - 80
   page-service:
-    image: page-service:local
+    image: registry.jahiduls.mint/page-service:local
     container_name: page-service
-    build: page-service/
+    build: {{ .Values.page_service_path }}
     restart: unless-stopped
     networks:
       - traefik
@@ -59,9 +59,9 @@ services:
     expose:
       - 80
   layout-service:
-    image: layout-service:local
+    image: registry.jahiduls.mint/layout-service:local
     container_name: layout-service
-    build: layout-service/
+    build: {{ .Values.layout_service_path }}
     restart: unless-stopped
     networks:
       - traefik
@@ -73,9 +73,9 @@ services:
     expose:
       - 80
   content-service:
-    image: content-service:local
+    image: registry.jahiduls.mint/content-service:local
     container_name: content-service
-    build: content-service/
+    build: {{ .Values.content_service_path }}
     restart: unless-stopped
     networks:
       - traefik
@@ -87,9 +87,9 @@ services:
     expose:
       - 80
   widget-service:
-    image: widget-service:local
+    image: registry.jahiduls.mint/widget-service:local
     container_name: widget-service
-    build: widget-service/
+    build: {{ .Values.widget_service_path }}
     restart: unless-stopped
     networks:
       - traefik

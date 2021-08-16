@@ -1,0 +1,7 @@
+values:
+  web_service_path: $WORKSPACE/projects/server/web-service
+  assembler_service_path: $WORKSPACE/projects/server/assembler-service
+  page_service_path: $WORKSPACE/projects/server/page-service
+  layout_service_path: $WORKSPACE/projects/server/layout-service
+  content_service_path: $WORKSPACE/projects/server/content-service
+  widget_service_path: $WORKSPACE/projects/server/widget-service
