@@ -48,7 +48,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: web-service:local
+          image: registry.jahiduls.mint/web-service:local
           ports:
             - containerPort: 80
               name: http

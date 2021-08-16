@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: assembler
-          image: assembler-service:local
+          image: registry.jahiduls.mint/assembler-service:local
           ports:
             - containerPort: 80
               name: http

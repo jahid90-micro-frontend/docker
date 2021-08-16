@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: widget
-        image: widget-service:local
+        image: registry.jahiduls.mint/widget-service:local
         ports:
         - containerPort: 80
           name: http
