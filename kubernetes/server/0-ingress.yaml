@@ -1,0 +1,34 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroute
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`jahiduls.kube`)
+      kind: Rule
+      services:
+        - name: web-service
+          port: 80
+    - match: Host(`jahiduls.kube`) && PathPrefix(`/widgets`)
+      kind: Rule
+      services:
+        - name: common-widgets
+          port: 80
+      middlewares:
+        - name: stripprefix-widgets
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix-widgets
+  namespace: default
+
+spec:
+  stripPrefix:
+    prefixes:
+      - /widgets
