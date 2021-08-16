@@ -4,6 +4,9 @@ networks:
   traefik:
     name: traefik
     driver: bridge
+  backend:
+    name: backend
+    driver: bridge
 
 services:
   web-service:
@@ -98,5 +101,21 @@ services:
       - SERVICE_NAME=widget-service
       - ZIPKIN_URI=http://zipkin:9411/api/v2/spans
       #- EnableLogTraceToConsole=true
+    expose:
+      - 80
+
+  auth-service:
+    image: registry.jahiduls.mint/auth-service:local
+    container_name: auth-service
+    build: $WORKSPACE/projects/backend/auth-service
+    restart: unless-stopped
+    networks:
+      - backend
+    environment:
+      - MONGO_USER=auth
+      - MONGO_PASSWORD=auth
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
+      - MONGO_DATABASE=auth
     expose:
       - 80

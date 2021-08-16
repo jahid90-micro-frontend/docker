@@ -5,3 +5,4 @@ values:
   layout_service_path: $WORKSPACE/projects/server/layout-service
   content_service_path: $WORKSPACE/projects/server/content-service
   widget_service_path: $WORKSPACE/projects/server/widget-service
+  auth_service_path: $WORKSPACE/projects/backend/auth-service
