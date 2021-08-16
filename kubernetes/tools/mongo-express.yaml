@@ -38,26 +38,21 @@ spec:
           name: web
         env:
         - name: ME_CONFIG_MONGODB_SERVER
-          value: mongodb.mongodb-system
+          value: mongodb.kube-storage
 
 ---
-kind: Ingress
-apiVersion: networking.k8s.io/v1
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
-  name: mongo-express
+  name: ingressroute
   namespace: tools
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
 
 spec:
-  rules:
-  - host: mongo-express.jahiduls.kube
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name:  mongo-express
-            port:
-              number: 80
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`mongo-express.jahiduls.kube`)
+      kind: Rule
+      services:
+        - name: mongo-express
+          port: 80
