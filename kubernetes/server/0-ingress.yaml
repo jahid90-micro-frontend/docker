@@ -6,7 +6,7 @@ metadata:
 
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - match: Host(`jahiduls.kube`)
       kind: Rule
