@@ -33,6 +33,7 @@ spec:
       containers:
         - name: assembler
           image: registry.jahiduls.mint/assembler-service:local
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
               name: http

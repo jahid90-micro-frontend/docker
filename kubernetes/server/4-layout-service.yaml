@@ -33,6 +33,7 @@ spec:
       containers:
       - name: layout
         image: registry.jahiduls.mint/layout-service:local
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
           name: http

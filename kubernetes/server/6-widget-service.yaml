@@ -33,6 +33,7 @@ spec:
       containers:
       - name: widget
         image: registry.jahiduls.mint/widget-service:local
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
           name: http
