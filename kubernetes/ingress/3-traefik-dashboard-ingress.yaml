@@ -47,11 +47,11 @@ metadata:
 
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - match: Host(`traefik.jahiduls.kube`)
       kind: Rule
       services:
-        - name: traefik-dashboard
-          port: 80
+        - name: api@internal
+          kind: TraefikService
           namespace: kube-ingress

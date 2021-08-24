@@ -1,0 +1,16 @@
+{
+    "version": "5",
+    "commands": [
+        {
+            "alias": "build",
+            "command": "docker build -t registry.jahiduls.mint/traefik:2.5 ."
+        },
+        {
+            "alias": "push",
+            "command": "docker push registry.jahiduls.mint/traefik:2.5",
+            "depends": [
+                "build"
+            ]
+        }
+    ]
+}

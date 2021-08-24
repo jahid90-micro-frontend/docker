@@ -19,17 +19,21 @@ spec:
       serviceAccountName: traefik-ingress-controller
       containers:
         - name: traefik
-          image: traefik:2.4
+          image: registry.jahiduls.mint/traefik:2.5
+          imagePullPolicy: Always
           args:
             - --api=true
             - --api.dashboard=true
-            - --api.insecure=true
+            # - --api.insecure=true
             - --entrypoints.web.address=:80
             - --entrypoints.websecure.address=:443
             - --entrypoints.websecure.http.tls
             - --entrypoints.traefik.address=:8080
             # - --providers.kubernetesingress=true
             - --providers.kubernetescrd=true
+            - --providers.file.directory=/configuration
+            - --providers.file.watch=true
+
           ports:
             - name: web
               containerPort: 80
@@ -54,3 +58,7 @@ spec:
       port: 80
       name: web
       targetPort: 80
+    - protocol: TCP
+      port: 443
+      name: websecure
+      targetPort: 443

@@ -1,0 +1,4 @@
+[[tls.certificates]]
+    certFile = "/configuration/certs/jahiduls.kube/cert.pem"
+    keyFile = "/configuration/certs/jahiduls.kube/key.pem"
+
