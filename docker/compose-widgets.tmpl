@@ -7,9 +7,9 @@ networks:
 
 services:
   common-widgets:
-    image: registry.jahiduls.mint/common-widgets:local
+    image: {{ .Values.registry }}/common-widgets:local
     container_name: common-widgets
-    build: common/
+    build: {{ .Values.common_widgets_path }}
     restart: unless-stopped
     networks:
       - traefik
@@ -25,9 +25,9 @@ services:
       - traefik.http.routers.common-widgets.middlewares=common-widgets-stripprefix
       - traefik.http.middlewares.common-widgets-stripprefix.stripprefix.prefixes=/widgets
   common-modules:
-    image: registry.jahiduls.mint/common-modules:local
+    image: {{ .Values.registry }}/common-modules:local
     container_name: common-modules
-    build: modules/
+    build: {{ .Values.common_modules_path }}
     restart: unless-stopped
     networks:
       - traefik

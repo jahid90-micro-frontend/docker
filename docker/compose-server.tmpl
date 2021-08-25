@@ -10,9 +10,9 @@ networks:
 
 services:
   web-service:
-    image: registry.jahiduls.mint/web-service:local
+    image: {{ .Values.registry }}/web-service:local
     container_name: web-service
-    build: $WORKSPACE/projects/server/web-service
+    build: {{ .Values.web_service_path }}
     restart: unless-stopped
     networks:
       - traefik
@@ -30,9 +30,9 @@ services:
       - traefik.http.routers.web-service.rule=Host(`jahiduls.mint`)
       - traefik.http.routers.web-service.tls=true
   assembler-service:
-    image: registry.jahiduls.mint/assembler-service:local
+    image: {{ .Values.registry }}/assembler-service:local
     container_name: assembler-service
-    build: $WORKSPACE/projects/server/assembler-service
+    build: {{ .Values.assembler_service_path }}
     restart: unless-stopped
     networks:
       - traefik
@@ -45,9 +45,9 @@ services:
     expose:
       - 80
   page-service:
-    image: registry.jahiduls.mint/page-service:local
+    image: {{ .Values.registry }}/page-service:local
     container_name: page-service
-    build: $WORKSPACE/projects/server/page-service
+    build: {{ .Values.page_service_path }}
     restart: unless-stopped
     networks:
       - traefik
@@ -62,9 +62,9 @@ services:
     expose:
       - 80
   layout-service:
-    image: registry.jahiduls.mint/layout-service:local
+    image: {{ .Values.registry }}/layout-service:local
     container_name: layout-service
-    build: $WORKSPACE/projects/server/layout-service
+    build: {{ .Values.layout_service_path }}
     restart: unless-stopped
     networks:
       - traefik
@@ -76,9 +76,9 @@ services:
     expose:
       - 80
   content-service:
-    image: registry.jahiduls.mint/content-service:local
+    image: {{ .Values.registry }}/content-service:local
     container_name: content-service
-    build: $WORKSPACE/projects/server/content-service
+    build: {{ .Values.content_service_path }}
     restart: unless-stopped
     networks:
       - traefik
@@ -90,9 +90,9 @@ services:
     expose:
       - 80
   widget-service:
-    image: registry.jahiduls.mint/widget-service:local
+    image: {{ .Values.registry }}/widget-service:local
     container_name: widget-service
-    build: $WORKSPACE/projects/server/widget-service
+    build: {{ .Values.widget_service_path }}
     restart: unless-stopped
     networks:
       - traefik
@@ -105,9 +105,9 @@ services:
       - 80
 
   auth-service:
-    image: registry.jahiduls.mint/auth-service:local
+    image: {{ .Values.registry }}/auth-service:local
     container_name: auth-service
-    build: $WORKSPACE/projects/backend/auth-service
+    build: {{ .Values.auth_service_path }}
     restart: unless-stopped
     networks:
       - backend
