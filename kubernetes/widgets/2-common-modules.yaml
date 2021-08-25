@@ -1,38 +1,38 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: common-widgets
+  name: common-modules
   namespace: default
   labels:
-    app: common-widgets
+    app: common-modules
 
 spec:
   ports:
     - port: 80
       targetPort: http
   selector:
-    app: common-widgets
+    app: common-modules
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: common-widgets
+  name: common-modules
   namespace: default
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: common-widgets
+      app: common-modules
   template:
     metadata:
       labels:
-        app: common-widgets
+        app: common-modules
     spec:
       containers:
-        - name: common-widgets
-          image: registry.jahiduls.mint/common-widgets:local
+        - name: common-modules
+          image: registry.jahiduls.mint/common-modules:local
           imagePullPolicy: Always
           ports:
             - containerPort: 80
@@ -40,5 +40,3 @@ spec:
           env:
             - name: PORT
               value: "80"
-            - name: PAGE_SERVICE_URI
-              value: page-service

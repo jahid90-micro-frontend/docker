@@ -20,6 +20,13 @@ spec:
           port: 80
       middlewares:
         - name: stripprefix-widgets
+    - match: Host(`jahiduls.kube`) && PathPrefix(`/modules`)
+      kind: Rule
+      services:
+        - name: common-modules
+          port: 80
+      middlewares:
+        - name: stripprefix-modules
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
@@ -32,3 +39,15 @@ spec:
   stripPrefix:
     prefixes:
       - /widgets
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: stripprefix-modules
+  namespace: default
+
+spec:
+  stripPrefix:
+    prefixes:
+      - /modules
