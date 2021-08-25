@@ -10,7 +10,7 @@ commands:
     command: composer compose --in compose-server.tmpl --values values.yaml --out compose-server.yaml
     description: Generate compose manifest for server
   - alias: docker:build
-    command: docker-compose build
+    command: docker-compose -f compose-server.yaml -f compose-backend.yaml -f compose-widgets.yaml build
     description: Build local docker images
     depends:
       - config:generate:backend
@@ -19,3 +19,5 @@ commands:
   - alias: docker:push
     command: docker image ls | rg local | rg -v '<none>' | awk '{ print "docker push " $1":"$2 }' | bash
     description: Push docker images to registry
+    depends:
+      - docker:build

@@ -1,3 +1,6 @@
 kubernetes/cluster.yaml
 docker/docker-compose.yml
 
+compose-backend.yaml
+compose-server.yaml
+compose-widgets.yaml
