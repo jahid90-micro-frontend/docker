@@ -1,4 +1,5 @@
 values:
+  registry: registry.jahiduls.mint
   web_service_path: $WORKSPACE/projects/server/web-service
   assembler_service_path: $WORKSPACE/projects/server/assembler-service
   page_service_path: $WORKSPACE/projects/server/page-service
@@ -6,3 +7,6 @@ values:
   content_service_path: $WORKSPACE/projects/server/content-service
   widget_service_path: $WORKSPACE/projects/server/widget-service
   auth_service_path: $WORKSPACE/projects/backend/auth-service
+  pug_service_path: $WORKSPACE/projects/backend/pus-as-a-service
+  common_widgets_path: $WORKSPACE/projects/widgets/common
+  common_modules_path: $WORKSPACE/projects/widgets/modules

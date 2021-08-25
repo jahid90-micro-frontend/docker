@@ -1,10 +1,21 @@
 version: 5
 commands:
-  - alias: config:generate
-    command: composer docker
-    description: Generate a docker compose manifest to build local images
+  - alias: config:generate:backend
+    command: composer compose --in compose-backend.tmpl --values values.yaml --out compose-backend.yaml
+    description: Generate compose manifest for backend
+  - alias: config:generate:widgets
+    command: composer compose --in compose-widgets.tmpl --values values.yaml --out compose-widgets.yaml
+    description: Generate compose manifest for widgets
+  - alias: config:generate:server
+    command: composer compose --in compose-server.tmpl --values values.yaml --out compose-server.yaml
+    description: Generate compose manifest for server
   - alias: docker:build
     command: docker-compose build
     description: Build local docker images
     depends:
-      - config:generate
+      - config:generate:backend
+      - config:generate:widgets
+      - config:generate:server
+  - alias: docker:push
+    command: docker image ls | rg local | rg -v '<none>' | awk '{ print "docker push " $1":"$2 }' | bash
+    description: Push docker images to registry
