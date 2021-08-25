@@ -7,7 +7,7 @@ networks:
 
 services:
   auth-service:
-    image: {{ .Values.registry }}/auth.service:local
+    image: {{ .Values.registry }}/auth-service:local
     container_name: auth-service
     build: {{ .Values.auth_service_path }}
     restart: unless-stopped
