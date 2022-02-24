@@ -1,26 +1,31 @@
-version: "5"
+version: 5
 commands:
+  - alias: cluster:network:create
+    command: docker network create --driver=bridge --subnet=172.200.0.0/16 --gateway=172.200.0.1 kind
+    description: Create a docker network for the cluster
   - alias: cluster:generate
     command: composer compose --in cluster.tmpl --values values.yaml --out cluster.yaml
-    description: "Generate cluster config"
+    description: Generate cluster config
+    depends:
+      - cluster:network:create
   - alias: cluster:up
     command: kind create cluster --config cluster.yaml --name local
-    description: "Create a local kubernetes cluster"
+    description: Create a local kubernetes cluster
     depends:
       - cluster:generate
   - alias: cluster:down
     command: kind delete cluster --name local
-    description: "Delete the local kubernetes cluster"
+    description: Delete the local kubernetes cluster
   - alias: ns:up
     command: find namespaces/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
   - alias: lb:up
     command: find loadbalancer/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
-    description: "Setup load balancer"
+    description: Setup load balancer
     depends:
       - ns:up
   - alias: ingress:up
     command: find ingress/ -iname '*.yaml' | sort | xargs -I{} kubectl apply -f {}
-    description: "Setup cluster ingress"
+    description: Setup cluster ingress
     depends:
       - ns:up
   - alias: logging:up

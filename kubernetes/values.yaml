@@ -1,3 +1,6 @@
 values:
-  digest: kindest/node@sha256:b8bda84bb3a190e6e028b1760d277454a72267a5454b57db34437c34a588d047
-
+  digest: registry.jahiduls.mint/kindest/node:v1.23.1
+  mirror: mirror.jahiduls.io
+  mirrorURI: http://mirror.jahiduls.io
+  registry: registry.jahiduls.io
+  registryURI: http://registry.jahiduls.io

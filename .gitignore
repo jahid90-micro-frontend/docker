@@ -1,3 +1,5 @@
+.vscode/
+
 kubernetes/cluster.yaml
 docker/docker-compose.yml
 
