@@ -1,3 +1,4 @@
-FROM traefik:2.5
+FROM registry.jahiduls.mint/traefik:current
 
 COPY ./configuration /configuration
+
