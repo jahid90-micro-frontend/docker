@@ -19,7 +19,7 @@ spec:
       serviceAccountName: traefik-ingress-controller
       containers:
         - name: traefik
-          image: registry.jahiduls.mint/traefik:2.5
+          image: registry.jahiduls.io/traefik:current-kube
           imagePullPolicy: Always
           args:
             - --api=true
