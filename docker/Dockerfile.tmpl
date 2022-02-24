@@ -1,0 +1,30 @@
+FROM registry.jahiduls.mint/golang:alpine as builder
+
+# Setup the assets dir
+WORKDIR /assets
+RUN mkdir -p /assets/bin
+RUN export GOBIN=/assets/bin
+RUN export PATH=$PATH:/assets/bin
+
+# Install git to pull packages from github
+RUN apk add git
+
+# Install minica for certificates generation
+RUN git clone https://github.com/jsha/minica.git
+RUN cd minica && go install
+
+# Install composer to generate configuration files from templates
+RUN git clone https://github.com/jahid90/composer-cli.git
+RUN cd composer-cli && go install
+
+# Generate traefik configuration
+WORKDIR /traefik
+COPY ./traefik .
+COPY values.yaml .
+
+RUN composer compose --in Dockerfile.tmpl --values values.yaml --out Dockerfile
+RUN if [ -z "configuration/certs" ]; then cd configuration/certs && minica -domains "{{ .Values.domain }},*.{{ .Values.domain }}"; fi
+RUN composer compose --in configuration/certs.toml.tmpl --values values.yaml --out configuration/certs.toml
+
+# Wait for 5 secs
+CMD ["sleep", "5"]

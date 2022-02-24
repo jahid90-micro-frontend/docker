@@ -1,0 +1,51 @@
+version: '3'
+
+networks:
+  {{ .Values.network }}:
+    name: {{ .Values.network }}
+    driver: bridge
+
+services:
+  traefik:
+    image: {{ .Values.registry }}/{{ .Values.imageName }}-{{ .Values.environment }}
+    build:
+      context: ./traefik
+      dockerfile: Dockerfile
+    container_name: {{ .Values.containerName }}-{{ .Values.environment }}
+    restart: {{ .Values.containerRestartPolicy }}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - {{ .Values.configurationPath }}:/configuration:ro
+    networks:
+      - {{ .Values.network }}
+    ports:
+      - {{ .Values.host }}:80:80
+      - {{ .Values.host }}:443:443
+    environment:
+      - TZ={{ .Values.timezone }}
+    command:
+      - --api=true
+      - --api.dashboard=true
+      - --providers.docker
+      - --providers.docker.endpoint=unix:///var/run/docker.sock
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.constraints=LabelRegex(`infra.type`,`.+`)
+      - --providers.file.directory=/configuration
+      - --providers.file.watch=true
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --entrypoints.websecure.http.tls=true
+      - --global.sendanonymoususage=false
+    labels:
+      - infra.type={{ .Values.environment }}
+      - traefik.enable=true
+      - traefik.http.routers.ingress.entrypoints=websecure
+      - traefik.http.routers.ingress.rule=Host(`traefik.{{ .Values.domain }}`)
+      - traefik.http.routers.ingress.tls=true
+      - traefik.http.routers.ingress.service=api@internal
+      - traefik.http.routers.ingress-http.entrypoints=web
+      - traefik.http.routers.ingress-http.rule=Host(`traefik.{{ .Values.domain }}`)
+      - traefik.http.routers.ingress-http.middlewares=https-redirect@docker
+        # Common middlewares definitions; other containers can reuse these
+      - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true

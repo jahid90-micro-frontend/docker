@@ -1,7 +1,12 @@
 .vscode/
 
 kubernetes/cluster.yaml
-docker/docker-compose.yml
+
+docker/Dockerfile
+docker/docker-compose.yaml
+docker/traefik/Dockerfile
+docker/traefik/configuration/certs.toml
+docker/traefik/configuration/certs/
 
 compose-backend.yaml
 compose-server.yaml

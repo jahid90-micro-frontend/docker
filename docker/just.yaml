@@ -1,23 +1,43 @@
-version: 5
+version: 6
+variables:
+  environment: staging
+  domain: home.io
+  gateway: 172.100.0.1
+  subnet: 172.100.0.0/16
+  network: staging
 commands:
-  - alias: config:generate:backend
-    command: composer compose --in compose-backend.tmpl --values values.yaml --out compose-backend.yaml
-    description: Generate compose manifest for backend
-  - alias: config:generate:widgets
-    command: composer compose --in compose-widgets.tmpl --values values.yaml --out compose-widgets.yaml
-    description: Generate compose manifest for widgets
-  - alias: config:generate:server
-    command: composer compose --in compose-server.tmpl --values values.yaml --out compose-server.yaml
-    description: Generate compose manifest for server
-  - alias: docker:build
-    command: docker-compose -f compose-server.yaml -f compose-backend.yaml -f compose-widgets.yaml build
-    description: Build local docker images
-    depends:
-      - config:generate:backend
-      - config:generate:widgets
-      - config:generate:server
-  - alias: docker:push
-    command: docker image ls | rg local | rg -v '<none>' | awk '{ print "docker push " $1":"$2 }' | bash
-    description: Push docker images to registry
-    depends:
-      - docker:build
+  start:
+    description: Start up the docker infra environment
+    steps:
+      - name: setup:infra:network
+        run: docker network create --driver=bridge --subnet={{ .subnet }} --gateway={{ .gateway }} {{ .network }} || echo 'Network already exists'
+      - name: generate:dockerfile
+        run: composer compose --in Dockerfile.tmpl --values values.yaml --out Dockerfile
+      - name: generate:config:builder
+        run: docker build -t builder:latest .
+      - name: generate:compose:file
+        run: composer compose --in docker-compose.yaml.tmpl --values values.yaml --out docker-compose.yaml
+      - name: run:config:builder
+        run: docker run -d --name builder builder:latest
+      - name: copy:docker:config
+        run: docker cp builder:/traefik/Dockerfile ./traefik/Dockerfile
+      - name: copy:cert:config
+        run: docker cp builder:/traefik/configuration/certs.toml ./traefik/configuration/certs.toml
+      - name: copy:certs
+        run: docker cp builder:/traefik/configuration/certs ./traefik/configuration/
+      - name: remove:docker:container
+        run: docker container stop builder && docker container rm builder
+      - name: remove:config:builder
+        run: docker image rm builder:latest
+      - name: run:traefik:container
+        run: docker-compose up -d
+  stop:
+    description: Stop the docker infra environment
+    steps:
+      - name: stop:traefik:container
+        run: docker-compose down
+  open:dashboard:
+    description: Open the ingress open:dashboard
+    steps:
+      - name: open:browser
+        run: nohup xdg-open https://traefik.{{ .domain }} > /dev/null 2>&1

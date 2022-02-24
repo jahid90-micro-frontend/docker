@@ -1,12 +1,12 @@
 values:
+  configurationPath: ./traefik/configuration
+  containerName: traefik
+  containerRestartPolicy: unless-stopped
+  domain: home.io
+  environment: staging
+  host: 172.100.0.1
+  imageName: traefik:current
+  network: staging
   registry: registry.jahiduls.mint
-  web_service_path: $WORKSPACE/projects/server/web-service
-  assembler_service_path: $WORKSPACE/projects/server/assembler-service
-  page_service_path: $WORKSPACE/projects/server/page-service
-  layout_service_path: $WORKSPACE/projects/server/layout-service
-  content_service_path: $WORKSPACE/projects/server/content-service
-  widget_service_path: $WORKSPACE/projects/server/widget-service
-  auth_service_path: $WORKSPACE/projects/backend/auth-service
-  pug_service_path: $WORKSPACE/projects/backend/pus-as-a-service
-  common_widgets_path: $WORKSPACE/projects/widgets/common
-  common_modules_path: $WORKSPACE/projects/widgets/modules
+  timezone: Asia/Kolkata
+  traefikBase: traefik:current
