@@ -27,4 +27,6 @@
         name: ulauncher
         state: latest
         update_cache: true
-
+    - name: Install extensions
+      debug:
+        msg: "Visit https://ext.ulauncher.io/ to install ulauncher extensions. Sort by github stars and check-out Process Murderer, Timer and System"
