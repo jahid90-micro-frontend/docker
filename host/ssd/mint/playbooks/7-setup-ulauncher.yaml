@@ -1,0 +1,30 @@
+---
+
+- name: Setup ULauncher
+  hosts: localhost
+  connection: local
+  vars:
+    user: "{{ lookup('env', 'USER') }}"
+  tasks:
+    - name: Install pre-reqs
+      become: true
+      apt:
+        pkg:
+          - wget
+          - gpg
+          - apt-transport-https
+        state: latest
+        update_cache: true
+    - name: Add ulauncher repository
+      become: true
+      apt_repository:
+        filename: ulauncher
+        repo: deb http://ppa.launchpad.net/agornostal/ulauncher/ubuntu focal main
+        state: present
+    - name: Update apt and install ulauncher
+      become: true
+      apt:
+        name: ulauncher
+        state: latest
+        update_cache: true
+
