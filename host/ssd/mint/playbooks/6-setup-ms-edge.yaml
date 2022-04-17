@@ -1,6 +1,6 @@
 ---
 
-- name: Setup VS Code
+- name: Setup Microsoft Edge
   hosts: localhost
   connection: local
   vars:
@@ -15,7 +15,7 @@
           - apt-transport-https
         state: latest
         update_cache: true
-    - name: Add vscode gpg apt key
+    - name: Add edge gpg apt key
       become: true
       apt_key:
         url: https://packages.microsoft.com/keys/microsoft.asc 
@@ -24,13 +24,13 @@
     - name: Add vscode repository
       become: true
       apt_repository:
-        filename: vscode
-        repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/microsoft.gpg] https://packages.microsoft.com/repos/code stable main
+        filename: microsoft-edge
+        repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main
         state: present
-    - name: Update apt and install vscode
+    - name: Update apt and install edge
       become: true
       apt:
-        name: code
+        name: microsoft-edge-stable
         state: latest
         update_cache: true
 

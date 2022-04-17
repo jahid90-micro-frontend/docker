@@ -1,5 +1,6 @@
 ---
-# PreRequisites:
+
+# Pre-requisites:
 #   - Have ssh keys setup to push/pull to/from github
 
 - name: Setup dotfiles
@@ -11,11 +12,11 @@
     dotfiles_path: "{{ home }}/.dotfiles"
   tasks:
     - name: Install zsh
-      become: yes
+      become: true
       apt:
         name: zsh
         state: latest
-        update_cache: yes
+        update_cache: true
     - name: Stat dotfiles local repo
       stat: path={{ dotfiles_path }}
       register: dotfiles_dir
@@ -24,12 +25,6 @@
       when: dotfiles_dir.stat.exists == False
     - name: Setup git to ignore untracked files
       command: git --git-dir={{ dotfiles_path }} --work-tree={{ home }} config --local status.showUntrackedFiles no
-    - name: Stat zsh config file
-      stat: path={{ home }}/.zshrc
-      register: zsh_config
-    - name: Make a backup of existing config
-      command: mv {{ home }}/.zshrc {{ home }}/.zshrc.bak
-      when: zsh_config.stat.exists
     - name: Checkout branch
       command: git --git-dir={{ dotfiles_path }} --work-tree={{ home }} checkout
     - name: Stat ohmyzsh dir
@@ -40,7 +35,7 @@
         url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
         dest: /tmp/install-oh-my-zsh.sh
         mode: '+x'
-        force: yes
+        force: true
       when: ohmyzsh_dir.stat.exists == False
     - name: Install oh-my-zsh
       command: /tmp/install-oh-my-zsh.sh

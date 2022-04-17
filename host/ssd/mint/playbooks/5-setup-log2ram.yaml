@@ -1,0 +1,26 @@
+---
+
+- name: Setup log2ram
+  hosts: localhost
+  connection: local
+  vars:
+    user: "{{ lookup('env', 'USER') }}"
+  tasks:
+    - name: Add log2ram gpg apt key
+      become: true
+      apt_key:
+        url: https://azlux.fr/repo.gpg
+        state: present
+        keyring: /etc/apt/trusted.gpg.d/azlux.gpg
+    - name: Add log2ram repository
+      become: true
+      apt_repository:
+        filename: azlux
+        repo: deb [signed-by=/etc/apt/trusted.gpg.d/azlux.gpg] http://packages.azlux.fr/debian/ bullseye main
+        state: present
+    - name: Update apt and install log2ram
+      become: true
+      apt:
+        name: log2ram
+        state: latest
+        update_cache: true

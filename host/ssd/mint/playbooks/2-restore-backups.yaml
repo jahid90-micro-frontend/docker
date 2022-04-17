@@ -1,5 +1,6 @@
 ---
-# Pre-Requisites:
+
+# Pre-requisites:
 #   - rclone setup with a remote
 #   - replace remote var below with remote name
 
@@ -11,11 +12,11 @@
     backups_path: /LocalMint/backups
   tasks:
     - name: Setup rclone
-      become: yes
+      become: true
       apt:
         name: rclone
         state: latest
-        update_cache: yes
+        update_cache: true
     - name: Check rclone configuration
       command: rclone listremotes
       register: rclone_remotes_list

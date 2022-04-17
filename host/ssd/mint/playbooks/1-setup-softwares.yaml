@@ -1,4 +1,5 @@
 ---
+
 - name: Setup new machine
   hosts: localhost
   connection: local
@@ -11,7 +12,7 @@
       - kubernetes
   tasks:
     - name: Install necessary packages
-      become: yes
+      become: true
       apt:
         pkg:
           - curl
@@ -20,9 +21,9 @@
           - ncdu
           - ripgrep 
         state: latest
-        update_cache: yes
+        update_cache: true
     - name: Setup data dir
-      become: yes
+      become: true
       file:
         path: "/data"
         owner: "{{ user }}"
@@ -44,7 +45,7 @@
     ubuntu_codename: focal
   tasks:
     - name: Install docker deps
-      become: yes
+      become: true
       apt:
         pkg: 
           - apt-transport-https
@@ -52,37 +53,39 @@
           - curl
           - software-properties-common
         state: latest
-        update_cache: yes
+        update_cache: true
     - name: Add docker gpg apt key
-      become: yes
+      become: true
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
+        keyring: /etc/apt/trusted.gpg.d/docker.gpg
     - name: Add docker repository
-      become: yes
+      become: true
       apt_repository:
         filename: docker
-        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu {{ ubuntu_codename }} stable
+        repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.gpg] https://download.docker.com/linux/ubuntu {{ ubuntu_codename }} stable
         state: present
     - name: Update apt and install docker-ce
-      become: yes
+      become: true
       apt:
         name: docker-ce
         state: latest
-        update_cache: yes
+        update_cache: true
     - name: Add user to docker group
-      become: yes
+      become: true
       user:
         name: "{{ user }}"
         group: docker
-        append: yes
+        append: true
     - name: Install docker-compose
-      become: yes
+      become: true
       get_url:
         url: https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-Linux-x86_64
         dest: /usr/local/bin/docker-compose
         mode: '+x'
         force: no
+
 - name: Setup vim
   hosts: localhost
   connection: local
