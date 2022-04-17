@@ -1,0 +1,28 @@
+---
+
+- name: Setup Gobrew
+  hosts: localhost
+  connection: local
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+  tasks:
+    - name: Install pre-reqs
+      become: true
+      apt:
+        pkg:
+          - curl
+        state: latest
+        update_cache: true
+    - name: Stat gobrew dir
+      stat: path={{ home }}/.gobrew
+      register: gobrew_dir
+    - name: Download install script
+      get_url:
+        url: https://git.io/gobrew
+        dest: /tmp/gobrew-install.sh
+        mode: '+x'
+        force: no
+      when: gobrew_dir.stat.exists == False
+    - name: Install gobrew
+      command: /tmp/gobrew-install.sh
+      when: gobrew_dir.stat.exists == False
