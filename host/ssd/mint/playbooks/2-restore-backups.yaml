@@ -1,0 +1,31 @@
+---
+# Pre-Requisites:
+#   - rclone setup with a remote
+#   - replace remote var below with remote name
+
+- name: Restore backups
+  hosts: localhost
+  connection: local
+  vars:
+    remote: GDriveSSP
+    backups_path: /LocalMint/backups
+  tasks:
+    - name: Setup rclone
+      become: yes
+      apt:
+        name: rclone
+        state: latest
+        update_cache: yes
+    - name: Check rclone configuration
+      command: rclone listremotes
+      register: rclone_remotes_list
+    - name: Notify missing remotes
+      command: echo 'No remotes found; run `rclone config` to setup a remote and try again'
+      when: rclone_remotes_list.stdout_lines == "0"
+    - meta: end_play
+      when: rclone_remotes_list.stdout_lines == "0"
+    - name: Copy backups from remote
+      command:
+        chdir: /data/backups
+        cmd: /usr/bin/rclone copy {{ remote }}:{{ backups_path }} .
+

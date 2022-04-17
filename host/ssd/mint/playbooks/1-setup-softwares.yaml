@@ -1,0 +1,104 @@
+---
+- name: Setup new machine
+  hosts: localhost
+  connection: local
+  vars:
+    user: "{{ lookup('env', 'USER') }}"
+    data_dirs:
+      - backups
+      - library
+      - docker
+      - kubernetes
+  tasks:
+    - name: Install necessary packages
+      become: yes
+      apt:
+        pkg:
+          - curl
+          - git
+          - tree
+          - ncdu
+          - ripgrep 
+        state: latest
+        update_cache: yes
+    - name: Setup data dir
+      become: yes
+      file:
+        path: "/data"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: '0755'
+        state: directory
+    - name: Setup data subdirs
+      file:
+        path: "/data/{{ item }}"
+        state: directory
+      loop: "{{ data_dirs }}"
+
+- name: Setup docker and docker-compose
+  hosts: localhost
+  connection: local
+  vars:
+    user: "{{ lookup('env', 'USER') }}"
+    compose_version: 1.29.2
+    ubuntu_codename: focal
+  tasks:
+    - name: Install docker deps
+      become: yes
+      apt:
+        pkg: 
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: latest
+        update_cache: yes
+    - name: Add docker gpg apt key
+      become: yes
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: Add docker repository
+      become: yes
+      apt_repository:
+        filename: docker
+        repo: deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu {{ ubuntu_codename }} stable
+        state: present
+    - name: Update apt and install docker-ce
+      become: yes
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: yes
+    - name: Add user to docker group
+      become: yes
+      user:
+        name: "{{ user }}"
+        group: docker
+        append: yes
+    - name: Install docker-compose
+      become: yes
+      get_url:
+        url: https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '+x'
+        force: no
+- name: Setup vim
+  hosts: localhost
+  connection: local
+  vars:
+    user: "{{ lookup('env', 'USER') }}"
+    home: "{{ lookup('env', 'HOME') }}"
+  tasks:
+    - name: Install vim
+      apt:
+        name: vim
+        state: latest
+    - name: Stat vundle dir
+      stat: path={{ home }}/.vim/bundle/Vundle.vim
+      register: vundle_dir
+    - name: Install vundle
+      command:  git clone https://github.com/VundleVim/Vundle.vim.git {{ home }}/.vim/bundle/Vundle.vim
+      when: vundle_dir.stat.exists == False
+
+
