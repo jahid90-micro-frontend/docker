@@ -1,10 +1,11 @@
 ---
 
-- name: Setup go version manager
+- name: Setup node version manager
   hosts: localhost
   connection: local
   vars:
     home: "{{ lookup('env', 'HOME') }}"
+    nvm_version: v.0.39.1
   tasks:
     - name: Install pre-reqs
       become: true
@@ -13,8 +14,9 @@
           - curl
         state: latest
         update_cache: true
-    - name: Install gobrew
+    - name: nvm
       shell: >
-        curl -sLk https://git.io/gobrew | sh -
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/{{ nvm_version }}/install.sh | bash
       args:
-        creates: "{{ ansible_env.HOME }}/.gobrew/bin/gobrew"
+        creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+

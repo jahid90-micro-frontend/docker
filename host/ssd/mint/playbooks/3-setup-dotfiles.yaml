@@ -17,39 +17,33 @@
         name: zsh
         state: latest
         update_cache: true
-    - name: Stat dotfiles local repo
-      stat: path={{ dotfiles_path }}
-      register: dotfiles_dir
-    - name: Clone repo
-      command: git clone --bare git@github.com:jahid90/dotfiles.git {{ dotfiles_path }}
-      when: dotfiles_dir.stat.exists == False
+    - name: Clone dotfiles repo
+      shell: >
+        git clone --bare git@github.com:jahid90/dotfiles.git {{ dotfiles_path }}
+      args:
+        creates: "{{ ansible_env.HOME }}/.dotfiles"
+      register: dotfiles_installed
+    # - debug: var=dotfiles_installed
     - name: Setup git to ignore untracked files
       command: git --git-dir={{ dotfiles_path }} --work-tree={{ home }} config --local status.showUntrackedFiles no
+      when: dotfiles_installed.changed
     - name: Checkout branch
       command: git --git-dir={{ dotfiles_path }} --work-tree={{ home }} checkout
-    - name: Stat ohmyzsh dir
-      stat: path={{ home }}/.oh-my-zsh
-      register: ohmyzsh_dir
-    - name: Download oh-my-zsh install script
-      get_url:
-        url: https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-        dest: /tmp/install-oh-my-zsh.sh
-        mode: '+x'
-        force: true
-      when: ohmyzsh_dir.stat.exists == False
+      when: dotfiles_installed.changed
     - name: Install oh-my-zsh
-      command: /tmp/install-oh-my-zsh.sh
-      when: ohmyzsh_dir.stat.exists == False
-    - name: Stat auto-suggestions
-      stat: path={{ home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-      register: auto_suggestions_dir
-    - name: Download auto-suggestions plugin
-      command: git clone https://github.com/zsh-users/zsh-autosuggestions {{ home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-      when: auto_suggestions_dir.stat.exists == False
+      shell: >
+        curl -o- https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
+      args:
+        creates: "{{ ansible_env.HOME }}/.ohmyzsh"
+    - name: Clone auto-suggestions plugin
+      shell: >
+        git clone https://github.com/zsh-users/zsh-autosuggestions {{ home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+      args: 
+        creates: "{{ ansible_env.HOME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
     - name: Enable auto-suggestions plugin
       debug:
         msg: "Add entry in plugins var in ~/.zshrc file: `plugins=(... zsh-autosuggestions)`"
     - name: Source configs
       debug:
-        msg: "Dotfiles setup complete; source the config file `source ~/.zshrc` or open a new shell"
+        msg: "Dotfiles setup complete; start a new session (`exec zsh`) or open a new shell"
 

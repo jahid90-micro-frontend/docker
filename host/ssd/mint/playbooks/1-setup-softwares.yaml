@@ -79,12 +79,10 @@
         group: docker
         append: true
     - name: Install docker-compose
-      become: true
-      get_url:
-        url: https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-Linux-x86_64
-        dest: /usr/local/bin/docker-compose
-        mode: '+x'
-        force: no
+      shell: >
+        sudo curl -L https://github.com/docker/compose/releases/download/{{ compose_version }}/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+      args:
+        creates: /usr/local/bin/docker-compose
 
 - name: Setup vim
   hosts: localhost
